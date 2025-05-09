@@ -1,20 +1,24 @@
-import time
 import os
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
 # ==== 使用者帳密設定 ====
 login_id = os.environ.get("LOGIN_ID")
 login_pw = os.environ.get("LOGIN_PW")
 
-# ==== 啟動瀏覽器 ====
+# ==== 啟動瀏覽器（Headless for GitHub Actions） ====
 options = webdriver.ChromeOptions()
-# options.add_argument('--headless')  # 可選：無頭模式
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 options.add_argument('--disable-gpu')
-driver = webdriver.Chrome(options=options)
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 # ==== 直接開啟 dutyroster 頁面，會自動導向登入頁 ====
 driver.get("https://www.kmb.org.hk/kmbhr/drs/dutyroster.php")
