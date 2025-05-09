@@ -1,6 +1,6 @@
 import os
 import time
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -48,8 +48,9 @@ else:
 
 target_html = str(correct_table)
 
-# ==== 顯示最後更新時間 ====
-now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+# ==== 顯示最後更新時間（轉為香港時間 UTC+8） ====
+hkt = timezone(timedelta(hours=8))
+now_str = datetime.now(hkt).strftime("%Y-%m-%d %H:%M:%S")
 
 # ==== 寫入 HTML 頁面 ====
 html_template = f"""<!DOCTYPE html>
@@ -84,7 +85,7 @@ html_template = f"""<!DOCTYPE html>
 </head>
 <body>
   <h1>龍運羊仔 - 值更時間表</h1>
-  <div class="note">最後更新時間：{now_str}</div>
+  <div class=\"note\">最後更新時間（香港）：{now_str}</div>
   {target_html}
 </body>
 </html>"""
