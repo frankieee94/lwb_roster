@@ -2,7 +2,7 @@ name: Daily Roster Update
 
 on:
   schedule:
-    - cron: "58 19 * * *" # 每日香港時間 02:35am（UTC+8 → UTC 18:35）
+    - cron: "0 */6 * * *" # 每日香港時間 08:00 / 14:00 / 20:00 / 02:00（隔日） 小時執行一次
   workflow_dispatch: # 允許手動觸發
 
 permissions:
