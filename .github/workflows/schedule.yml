@@ -1,0 +1,39 @@
+name: Daily Roster Update
+
+on:
+  schedule:
+    - cron: "0 23 * * *" # 每日 7am 香港時間（GitHub 用 UTC）
+  workflow_dispatch: # 也支援手動觸發
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install Dependencies
+        run: |
+          pip install selenium beautifulsoup4
+          sudo apt-get install -y chromium-chromedriver
+          echo 'CHROME_BIN=/usr/bin/chromium-browser' >> $GITHUB_ENV
+
+      - name: Run Python Script
+        env:
+          LOGIN_ID: ${{ secrets.LOGIN_ID }}
+          LOGIN_PW: ${{ secrets.LOGIN_PW }}
+        run: |
+          python kmb_roster.py
+
+      - name: Commit and Push HTML
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add duty_roster.html
+          git commit -m "Auto update $(date +'%Y-%m-%d')" || echo "No changes"
+          git push
