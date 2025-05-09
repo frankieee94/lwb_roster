@@ -1,5 +1,6 @@
 import os
 import time
+from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,6 +12,10 @@ from bs4 import BeautifulSoup
 # ==== 使用者帳密設定 ====
 login_id = os.environ.get("LOGIN_ID")
 login_pw = os.environ.get("LOGIN_PW")
+
+if not login_id or not login_pw:
+    print("❌ LOGIN_ID 或 LOGIN_PW 未設定。請確認 GitHub Secrets。")
+    exit(1)
 
 # ==== 啟動瀏覽器（Headless for GitHub Actions） ====
 options = webdriver.ChromeOptions()
@@ -34,8 +39,6 @@ driver.quit()
 
 # ==== 解析排班表格，擷取正確層級的 <table> HTML 區段 ====
 soup = BeautifulSoup(html, "html.parser")
-
-# 抓取 <td class="row1"> 中第 5 個 <table>
 tables = soup.select("td.row1 > table")
 if len(tables) >= 5:
     correct_table = tables[4]
@@ -43,8 +46,10 @@ else:
     print("❌ 找不到 <td class='row1'> 中的第 5 個 <table>。")
     exit()
 
-# ==== 抽出整個 <table> HTML ====
 target_html = str(correct_table)
+
+# ==== 顯示最後更新時間 ====
+now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # ==== 寫入 HTML 頁面 ====
 html_template = f"""<!DOCTYPE html>
@@ -70,10 +75,16 @@ html_template = f"""<!DOCTYPE html>
       font-size: 14px;
       text-align: center;
     }}
+    .note {{
+      margin-top: 1rem;
+      font-size: 12px;
+      color: #555;
+    }}
   </style>
 </head>
 <body>
   <h1>龍運羊仔 - 值更時間表</h1>
+  <div class="note">最後更新時間：{now_str}</div>
   {target_html}
 </body>
 </html>"""
