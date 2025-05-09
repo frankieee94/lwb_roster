@@ -2,14 +2,18 @@ name: Daily Roster Update
 
 on:
   schedule:
-    - cron: "35 18 * * *" # 每日 7am 香港時間（GitHub 用 UTC）
-  workflow_dispatch: # 也支援手動觸發
+    - cron: "35 18 * * *" # 每日香港時間 02:35am（UTC+8 → UTC 18:35）
+  workflow_dispatch: # 允許手動觸發
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      LOGIN_ID: ${{ secrets.LOGIN_ID }}
+      LOGIN_PW: ${{ secrets.LOGIN_PW }}
+
     steps:
-      - name: Checkout Repo
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -17,23 +21,22 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Install Dependencies
+      - name: Install Chrome
         run: |
-          pip install selenium beautifulsoup4
-          sudo apt-get install -y chromium-chromedriver
-          echo 'CHROME_BIN=/usr/bin/chromium-browser' >> $GITHUB_ENV
+          sudo apt update
+          sudo apt install -y google-chrome-stable
 
-      - name: Run Python Script
-        env:
-          LOGIN_ID: ${{ secrets.LOGIN_ID }}
-          LOGIN_PW: ${{ secrets.LOGIN_PW }}
+      - name: Install dependencies
         run: |
-          python kmb_roster.py
+          pip install -r requirements.txt
 
-      - name: Commit and Push HTML
+      - name: Run Python script
+        run: python kmb_roster.py
+
+      - name: Commit and push generated HTML
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
           git add duty_roster.html
-          git commit -m "Auto update $(date +'%Y-%m-%d')" || echo "No changes"
+          git commit -m "📆 Update duty roster on $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes"
           git push
