@@ -48,7 +48,7 @@ html_template = f"""<!DOCTYPE html>
 <head>
   <meta charset=\"UTF-8\">
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-  <title>巴士更表預覽</title>
+  <title>龍運羊仔 - 值更時間表</title>
   <style>
     body {{
       font-family: 'PingFang TC', 'Noto Sans TC', sans-serif;
@@ -69,7 +69,7 @@ html_template = f"""<!DOCTYPE html>
   </style>
 </head>
 <body>
-  <h1>龍運羊仔值更時間表</h1>
+  <h1>龍運羊仔 - 值更時間表</h1>
   {target_html}
 </body>
 </html>"""

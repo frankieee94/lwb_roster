@@ -2,7 +2,7 @@ name: Daily Roster Update
 
 on:
   schedule:
-    - cron: "0 23 * * *" # 每日 7am 香港時間（GitHub 用 UTC）
+    - cron: "35 18 * * *" # 每日 7am 香港時間（GitHub 用 UTC）
   workflow_dispatch: # 也支援手動觸發
 
 jobs:
