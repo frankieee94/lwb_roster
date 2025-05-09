@@ -5,6 +5,9 @@ on:
     - cron: "35 18 * * *" # 每日香港時間 02:35am（UTC+8 → UTC 18:35）
   workflow_dispatch: # 允許手動觸發
 
+permissions:
+  contents: write # 允許 push 到 repo
+
 jobs:
   build:
     runs-on: ubuntu-latest
