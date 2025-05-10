@@ -87,6 +87,30 @@ html_template = f"""<!DOCTYPE html>
   <h1>龍運羊仔 - 值更時間表</h1>
   <div class=\"note\">最後更新時間（香港）：{now_str}</div>
   {target_html}
+  <script>
+    const CHECK_INTERVAL = 900000; // 每 15 分鐘
+    let lastModified = null;
+
+    async function checkForUpdate() {{
+      try {{
+        const response = await fetch(window.location.href, {{
+          method: 'HEAD',
+          cache: 'no-store'
+        }});
+        const newModified = response.headers.get('last-modified');
+        if (lastModified && newModified && newModified !== lastModified) {{
+          document.getElementById("update-notice").style.display = "block";
+          setTimeout(() => location.reload(true), 3000);
+        }}
+        lastModified = newModified;
+      }} catch (err) {{
+        console.error("🔁 檢查更新失敗:", err);
+      }}
+    }}
+
+    checkForUpdate();
+    setInterval(checkForUpdate, CHECK_INTERVAL);
+  </script>
 </body>
 </html>"""
 
