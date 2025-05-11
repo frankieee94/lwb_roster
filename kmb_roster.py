@@ -50,14 +50,14 @@ target_html = str(correct_table)
 
 # ==== 顯示最後更新時間（轉為香港時間 UTC+8） ====
 hkt = timezone(timedelta(hours=8))
-now_str = datetime.now(hkt).strftime("%Y-%m-%d %H:%M:%S")
+now_str = datetime.now(hkt).strftime("%Y/%m/%d %H:%M")
 
 # ==== 寫入 HTML 頁面 ====
 html_template = f"""<!DOCTYPE html>
-<html lang=\"zh-Hant\">
+<html lang="zh-Hant">
 <head>
-  <meta charset=\"UTF-8\">
-  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>龍運羊仔 - 值更時間表</title>
   <style>
     body {{
@@ -65,10 +65,23 @@ html_template = f"""<!DOCTYPE html>
       background-color: #f9f9f9;
       padding: 2rem;
     }}
+    h1 {{
+      font-size: 24px;
+      margin-bottom: 0.5rem;
+    }}
+    .last-update {{
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }}
+    .table-container {{
+      overflow-x: auto;
+    }}
     table {{
       width: 100%;
       border-collapse: collapse;
       background-color: white;
+      min-width: 1000px;
     }}
     td, th {{
       border: 1px solid #ccc;
@@ -76,17 +89,39 @@ html_template = f"""<!DOCTYPE html>
       font-size: 14px;
       text-align: center;
     }}
-    .note {{
-      margin-top: 1rem;
-      font-size: 12px;
-      color: #555;
+    #update-notice {{
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-size: 14px;
+      z-index: 999;
+    }}
+    @media (max-width: 768px) {{
+      body {{
+        padding: 1rem;
+      }}
+      td, th {{
+        font-size: 12px;
+        padding: 4px;
+      }}
+      h1 {{
+        font-size: 18px;
+      }}
     }}
   </style>
 </head>
 <body>
   <h1>龍運羊仔 - 值更時間表</h1>
-  <div class=\"note\">最後更新時間（香港）：{now_str}</div>
-  {target_html}
+  <div class="last-update">最後更新時間（香港）：{now_str}</div>
+  <div id="update-notice">更表已有更新，3 秒後自動重新載入…</div>
+  <div class="table-container">
+    {target_html}
+  </div>
   <script>
     const CHECK_INTERVAL = 900000; // 每 15 分鐘
     let lastModified = null;
@@ -113,6 +148,7 @@ html_template = f"""<!DOCTYPE html>
   </script>
 </body>
 </html>"""
+
 
 with open("duty_roster.html", "w", encoding="utf-8") as f:
     f.write(html_template)
