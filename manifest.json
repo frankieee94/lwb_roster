@@ -1,0 +1,20 @@
+{
+    "name": "龍運羊仔更表",
+    "short_name": "龍運羊仔更表",
+    "start_url": "./duty_roster.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "icons": [
+      {
+        "src": "icon192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "icon512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
+  
