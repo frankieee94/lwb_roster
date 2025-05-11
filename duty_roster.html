@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +11,7 @@
   <link rel="apple-touch-icon" href="icon192.png">
   <!-- Open Graph (for Facebook, WhatsApp, LinkedIn) -->
   <meta property="og:title" content="龍運羊仔 - 值更時間表">
-  <meta property="og:description" content="每日自動更新的龍運車長更表，可篩選出勤狀態、路線、更份等資料。">
+  <meta property="og:description" content="每日自動更新的龍運羊仔更表，可篩選出勤狀態、路線、更份等資料">
   <meta property="og:image" content="https://frankieee94.github.io/lwb_roster/thumbnail.png">
   <meta property="og:url" content="https://frankieee94.github.io/lwb_roster/duty_roster.html">
   <meta property="og:type" content="website">
@@ -20,7 +19,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="龍運羊仔 - 值更時間表">
-  <meta name="twitter:description" content="每日自動更新的龍運車長更表，可篩選出勤狀態、路線、更份等資料。">
+  <meta name="twitter:description" content="每日自動更新的龍運羊仔更表，可篩選出勤狀態、路線、更份等資料">
   <meta name="twitter:image" content="https://frankieee94.github.io/lwb_roster/thumbnail.png">
   <title>龍運 - 羊仔更表</title>
   <style>
@@ -29,7 +28,6 @@
       background-color: #f9f9f9;
       padding: 2rem;
     }
-
     .filters {
       margin-bottom: 1rem;
       display: flex;
@@ -37,37 +35,30 @@
       gap: 10px;
       font-size: 14px;
     }
-
     .filters label {
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
-
     .filters select {
       font-size: 14px;
       padding: 3px;
     }
-
     .last-update {
       font-size: 14px;
       color: #666;
       margin-bottom: 1.5rem;
     }
-
     .table-container {
       overflow-x: auto;
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
       background-color: white;
       min-width: 1000px;
     }
-
-    td,
-    th {
+    td, th {
       border: 1px solid #ccc;
       padding: 6px;
       font-size: 14px;
@@ -75,36 +66,25 @@
     }
   </style>
 </head>
-
 <body>
   <h1>龍運 - 羊仔更表</h1>
-  <div class="last-update">最後更新時間(香港)：2025/05/12 07:03</div>
+  <div class="last-update">最後更新時間(香港)：2025/05/12 07:23</div>
 
   <div class="filters">
     <label>編更廠：
-      <select id="filter-depot">
-        <option value="">全部</option>
-      </select>
+      <select id="filter-depot"><option value="">全部</option></select>
     </label>
     <label>路線：
-      <select id="filter-route">
-        <option value="">全部</option>
-      </select>
+      <select id="filter-route"><option value="">全部</option></select>
     </label>
     <label>字軌：
-      <select id="filter-code">
-        <option value="">全部</option>
-      </select>
+      <select id="filter-code"><option value="">全部</option></select>
     </label>
     <label>更份：
-      <select id="filter-shift">
-        <option value="">全部</option>
-      </select>
+      <select id="filter-shift"><option value="">全部</option></select>
     </label>
     <label>簽到地點：
-      <select id="filter-checkin">
-        <option value="">全部</option>
-      </select>
+      <select id="filter-checkin"><option value="">全部</option></select>
     </label>
     <label>出勤狀態（可多選）：
       <select id="filter-location" multiple size="4"></select>
@@ -112,781 +92,251 @@
   </div>
 
   <div class="table-container">
-    <table bgcolor="#C6C6FF" border="1" cellpadding="2" width="1000">
-      <thead>
-        <tr align="center" bgcolor="#AAAAFF">
-          <td width="180">
-            <font size="2">更牌日期(年/月/日)</font>
-          </td>
-          <td width="80">
-            <font size="2">編更廠</font>
-          </td>
-          <td width="50">
-            <font size="2">路線</font>
-          </td>
-          <td width="50">
-            <font size="2">字軌</font>
-          </td>
-          <td width="40">
-            <font size="2">更份</font>
-          </td>
-          <td width="80">
-            <font size="2">候命時間</font>
-          </td>
-          <td width="80">簽到地點</td>
-          <td width="150">出勤狀態</td>
-          <td width="80">
-            <font size="2">備註</font>
-          </td>
-          <td width="80">
-            <font size="2"> </font>
-          </td>
-          <td width="80">
-            <font size="2">曾經更新</font>
-          </td>
-          <td width="100">
-            <font size="2">事假/調假申請</font>
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="background-color: #F2F2F2;">
-          <td>
-            <font color="#FF0000" size="2">2025/05/11 (星期日)#</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">法假</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-        </tr>
-        <tr style="background-color: #FFF6D5;">
-          <td>
-            <font color="#FF0000" size="2">2025/05/12 (星期一)</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">編休</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/13 (星期二)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">小濠灣廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">後備</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/14 (星期三)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">A43</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> 05</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">18:10</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">聯和墟</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">正常</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#FF0000" size="2">2025/05/15 (星期四)</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">編休</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">*</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/16 (星期五)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">A43</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> 03</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">17:30</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">聯和墟</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">正常</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/17 (星期六)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">小濠灣廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">後備</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/18 (星期日)#</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">後備</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">*</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#FF0000" size="2">2025/05/19 (星期一)</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">編休</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/20 (星期二)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">A43</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> 05</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">正常</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/21 (星期三)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">A43</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> 05</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">正常</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/22 (星期四)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">A43</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> 05</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">正常</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/23 (星期五)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">小濠灣廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">後備</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#FF0000" size="2">2025/05/24 (星期六)</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">編休</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#FF0000" size="2">2025/05/25 (星期日)#</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">編休</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#FF0000" size="2">2025/05/26 (星期一)</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">法假</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/27 (星期二)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">A43</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> 04</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">正常</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/28 (星期三)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">A43</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> 30</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">正常</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/29 (星期四)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">A43</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> 07</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">正常</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#000000" size="2">2025/05/30 (星期五)</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">A43</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"> 06</font>
-          </td>
-          <td>
-            <font color="#000000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2">正常</font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-          <td>
-            <font color="#000000" size="2"></font>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <font color="#FF0000" size="2">2025/05/31 (星期六)#</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">龍運石湖墟廠</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"> </font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">夜</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2">編休</font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-          <td>
-            <font color="#FF0000" size="2"></font>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <table bgcolor="#C6C6FF" border="1" cellpadding="2" width="1000"><thead><tr align="center" bgcolor="#AAAAFF">
+<td width="180"><font size="2">更牌日期(年/月/日)</font></td>
+<td width="80"><font size="2">編更廠</font></td>
+<td width="50"><font size="2">路線</font></td>
+<td width="50"><font size="2">字軌</font></td>
+<td width="40"><font size="2">更份</font></td>
+<td width="80"><font size="2">候命時間</font></td>
+<td width="80">簽到地點</td>
+<td width="150">出勤狀態</td>
+<td width="80"><font size="2">備註</font></td>
+<td width="80"><font size="2"> </font></td>
+<td width="80"><font size="2">曾經更新</font></td>
+<td width="100"><font size="2">事假/調假申請</font></td>
+</tr></thead><tbody><tr style="background-color: #FFF6D5;"><td><font color="#FF0000" size="2">2025/05/11 (星期日)#</font></td>
+<td><font color="#FF0000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#FF0000" size="2"> </font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">夜</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">法假</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+</tr><tr><td><font color="#FF0000" size="2">2025/05/12 (星期一)</font></td>
+<td><font color="#FF0000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#FF0000" size="2"> </font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">夜</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">編休</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/13 (星期二)</font></td>
+<td><font color="#000000" size="2">小濠灣廠</font></td>
+<td><font color="#000000" size="2"> </font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">後備</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/14 (星期三)</font></td>
+<td><font color="#000000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#000000" size="2">A43</font></td>
+<td><font color="#000000" size="2"> 05</font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2">18:10</font></td>
+<td><font color="#000000" size="2">聯和墟</font></td>
+<td><font color="#000000" size="2">正常</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#FF0000" size="2">2025/05/15 (星期四)</font></td>
+<td><font color="#FF0000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#FF0000" size="2"> </font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">夜</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">編休</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">*</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/16 (星期五)</font></td>
+<td><font color="#000000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#000000" size="2">A43</font></td>
+<td><font color="#000000" size="2"> 03</font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2">17:30</font></td>
+<td><font color="#000000" size="2">聯和墟</font></td>
+<td><font color="#000000" size="2">正常</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/17 (星期六)</font></td>
+<td><font color="#000000" size="2">小濠灣廠</font></td>
+<td><font color="#000000" size="2"> </font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">後備</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/18 (星期日)#</font></td>
+<td><font color="#000000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#000000" size="2"> </font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">後備</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">*</font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#FF0000" size="2">2025/05/19 (星期一)</font></td>
+<td><font color="#FF0000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#FF0000" size="2"> </font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">夜</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">編休</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/20 (星期二)</font></td>
+<td><font color="#000000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#000000" size="2">A43</font></td>
+<td><font color="#000000" size="2"> 05</font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">正常</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/21 (星期三)</font></td>
+<td><font color="#000000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#000000" size="2">A43</font></td>
+<td><font color="#000000" size="2"> 05</font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">正常</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/22 (星期四)</font></td>
+<td><font color="#000000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#000000" size="2">A43</font></td>
+<td><font color="#000000" size="2"> 05</font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">正常</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/23 (星期五)</font></td>
+<td><font color="#000000" size="2">小濠灣廠</font></td>
+<td><font color="#000000" size="2"> </font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">後備</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#FF0000" size="2">2025/05/24 (星期六)</font></td>
+<td><font color="#FF0000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#FF0000" size="2"> </font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">夜</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">編休</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+</tr><tr><td><font color="#FF0000" size="2">2025/05/25 (星期日)#</font></td>
+<td><font color="#FF0000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#FF0000" size="2"> </font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">夜</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">編休</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+</tr><tr><td><font color="#FF0000" size="2">2025/05/26 (星期一)</font></td>
+<td><font color="#FF0000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#FF0000" size="2"> </font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">夜</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">法假</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/27 (星期二)</font></td>
+<td><font color="#000000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#000000" size="2">A43</font></td>
+<td><font color="#000000" size="2"> 04</font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">正常</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/28 (星期三)</font></td>
+<td><font color="#000000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#000000" size="2">A43</font></td>
+<td><font color="#000000" size="2"> 30</font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">正常</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/29 (星期四)</font></td>
+<td><font color="#000000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#000000" size="2">A43</font></td>
+<td><font color="#000000" size="2"> 07</font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">正常</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#000000" size="2">2025/05/30 (星期五)</font></td>
+<td><font color="#000000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#000000" size="2">A43</font></td>
+<td><font color="#000000" size="2"> 06</font></td>
+<td><font color="#000000" size="2">夜</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2">正常</font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+<td><font color="#000000" size="2"></font></td>
+</tr><tr><td><font color="#FF0000" size="2">2025/05/31 (星期六)#</font></td>
+<td><font color="#FF0000" size="2">龍運石湖墟廠</font></td>
+<td><font color="#FF0000" size="2"> </font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">夜</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2">編休</font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+<td><font color="#FF0000" size="2"></font></td>
+</tr></tbody></table>
   </div>
 
   <script>
@@ -969,5 +419,4 @@
     });
   </script>
 </body>
-
 </html>
