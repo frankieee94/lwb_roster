@@ -126,6 +126,11 @@ html_template = f"""<!DOCTYPE html>
       font-size: 14px;
       padding: 3px;
     }}
+    .last-update {{
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }}
     .table-container {{
       overflow-x: auto;
     }}
