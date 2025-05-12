@@ -94,7 +94,7 @@ html_template = f"""<!DOCTYPE html>
   <!-- Open Graph (for Facebook, WhatsApp, LinkedIn) -->
   <meta property="og:title" content="龍運羊仔 - 值更時間表">
   <meta property="og:description" content="每日自動更新的龍運羊仔更表，可篩選出勤狀態、路線、更份等資料">
-  <meta property="og:image" content="https://frankieee94.github.io/lwb_roster/thumbnail.png">
+  <meta property="og:image" content="https://frankieee94.github.io/lwb_roster/thumbnail-v2.png">
   <meta property="og:url" content="https://frankieee94.github.io/lwb_roster/duty_roster.html">
   <meta property="og:type" content="website">
 
@@ -102,7 +102,7 @@ html_template = f"""<!DOCTYPE html>
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="龍運羊仔 - 值更時間表">
   <meta name="twitter:description" content="每日自動更新的龍運羊仔更表，可篩選出勤狀態、路線、更份等資料">
-  <meta name="twitter:image" content="https://frankieee94.github.io/lwb_roster/thumbnail.png">
+  <meta name="twitter:image" content="https://frankieee94.github.io/lwb_roster/thumbnail-v2.png">
   <title>龍運 - 羊仔更表</title>
   <style>
     body {{
