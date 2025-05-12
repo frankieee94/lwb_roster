@@ -108,7 +108,6 @@ html_template = f"""<!DOCTYPE html>
     body {{
       font-family: 'PingFang TC', 'Noto Sans TC', sans-serif;
       background-color: #f9f9f9;
-      padding: 2rem;
     }}
     .filters {{
       margin-bottom: 1rem;
