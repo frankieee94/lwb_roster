@@ -200,6 +200,12 @@ html_template = f"""<!DOCTYPE html>
 
     function populateFilter(id, values) {{
       const select = document.getElementById(id);
+      if (id === "filter-location") {{
+        const allOption = document.createElement("option");
+        allOption.value = "__ALL__";
+        allOption.textContent = "全部";
+        select.appendChild(allOption);
+      }}
       values.forEach(val => {{
         const option = document.createElement("option");
         option.value = val;
@@ -209,7 +215,14 @@ html_template = f"""<!DOCTYPE html>
     }}
 
     function getMultiSelectValues(selectElement) {{
-      return Array.from(selectElement.selectedOptions).map(opt => opt.value);
+      const selected = Array.from(selectElement.selectedOptions).map(opt => opt.value);
+      if (selected.includes("__ALL__")) {{
+        // 揀咗「全部」就取返所有非 "全部" 嘅選項
+        return Array.from(selectElement.options)
+                    .map(opt => opt.value)
+                    .filter(v => v && v !== "__ALL__");
+      }}
+      return selected;
     }}
 
     function applyFilters() {{
@@ -251,6 +264,12 @@ html_template = f"""<!DOCTYPE html>
         const filterId = "filter-" + key;
         const values = getUniqueColumnValues(columnIndexMap[key]);
         populateFilter(filterId, values);
+
+        // 預設選中「全部」
+        if (key === "location") {{
+          document.getElementById(filterId).querySelector("option[value='__ALL__']").selected = true;
+        }}
+
         document.getElementById(filterId).addEventListener("change", applyFilters);
       }});
     }});
