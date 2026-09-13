@@ -625,7 +625,7 @@ html_template = f"""<!DOCTYPE html>
 
         // 2. 填充 縮小版 Sticky Card 數據
         document.getElementById("sticky-date").innerHTML = `${{todayData.dateText}} 📌`;
-        document.getElementById("sticky-sub").innerText = `${{todayData.depotText}} · ${{todayData.shiftText}}更 ${{todayData.routeText ? '| 路線 ' + todayData.routeText : ''}}`;
+        document.getElementById("sticky-sub").innerText = `${{todayData.depotText}} · ${{todayData.shiftText}}更 ${{todayData.routeText ? '| 路線 ' + todayData.routeText : ''}} ${{todayData.codeText ? '| 字軌 ' + todayData.codeText : ''}}`;
         document.getElementById("sticky-chip-wrapper").innerHTML = `<span class="chip ${{todayData.statusStyle.chip}}">${{todayData.statusText}}</span>`;
 
         // 3. 綁定 Intersection Observer (監聽 Hero Card 是否離開螢幕)
