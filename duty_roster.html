@@ -2,14 +2,15 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#ffffff">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon192.png">
   <link rel="apple-touch-icon" href="icon192.png">
-  <!-- Open Graph (for Facebook, WhatsApp, LinkedIn) -->
+
+  <!-- Open Graph -->
   <meta property="og:title" content="龍運羊仔 - 值更時間表">
   <meta property="og:description" content="每日自動更新的龍運羊仔更表，可篩選出勤狀態、路線、更份等資料">
   <meta property="og:image" content="https://frankieee94.github.io/lwb_roster/thumbnail-v2.png">
@@ -22,76 +23,380 @@
   <meta name="twitter:description" content="每日自動更新的龍運羊仔更表，可篩選出勤狀態、路線、更份等資料">
   <meta name="twitter:image" content="https://frankieee94.github.io/lwb_roster/thumbnail-v2.png">
   <title>龍運 - 羊仔更表</title>
+
   <style>
-    body {
-      font-family: 'PingFang TC', 'Noto Sans TC', sans-serif;
-      background-color: #f9f9f9;
+    :root {
+      --primary: #FF6600;
+      --bg-body: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --danger-color: #de350b;
+      --danger-bg: #ffebe6;
+      --success-color: #00875a;
+      --success-bg: #e3fcef;
+      --warning-color: #e06c00;
+      --warning-bg: #fffae6;
+      --info-color: #0052cc;
+      --info-bg: #deebff;
     }
-    .filters {
-      margin-bottom: 1rem;
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", sans-serif; }
+    body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: 80px; }
+
+    /* Header 區域 */
+    .header {
+      position: sticky;
+      top: 0;
+      background: var(--card-bg);
+      padding: 12px 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      z-index: 100;
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 14px;
+      justify-content: space-between;
+      align-items: center;
     }
-    .filters label {
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .header-text h1 { font-size: 1.15rem; font-weight: 700; color: #f26c34; }
+    .header-text .last-update { font-size: 0.72rem; color: var(--text-sub); margin-top: 2px; }
+
+    /* PWA 安裝按鈕 */
+    .pwa-btn {
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #ffedd5;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .pwa-btn:active { background: #ffedd5; }
+
+    /* iOS 彈出 Modal 樣式 */
+    .pwa-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: flex-end;
+    }
+    .pwa-modal-content {
+      background: #fff;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 16px 16px 0 0;
+      padding: 20px;
+      animation: slideUp 0.25s ease-out;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .pwa-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .pwa-modal-header h3 { font-size: 1.05rem; color: #0f172a; }
+    .pwa-close-btn { font-size: 1.5rem; color: #64748b; cursor: pointer; padding: 0 8px; }
+    .pwa-modal-body { font-size: 0.88rem; color: #334155; line-height: 1.6; }
+    .pwa-modal-body ol { margin-left: 20px; margin-top: 8px; }
+    .pwa-modal-body li { margin-bottom: 6px; }
+
+    /* Container */
+    .app-container { padding: 12px; max-width: 600px; margin: 0 auto; }
+
+    /* 極簡白底高亮 Hero Card */
+    .today-hero {
+      background: #fffdf5;
+      border: 1px solid #fef08a;
+      border-left: 6px solid #ff6600;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08);
+    }
+    .today-hero .hero-tag, .sticky-today-card .hero-tag {
+      display: inline-block;
+      background: #ffebd6;
+      color: #c2410c;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .sticky-today-card .hero-tag {
+      align-self: flex-start;
+      margin-bottom: 2px;
+    }
+    .today-hero .hero-date { font-size: 1.1rem; font-weight: 700; color: #0f172a; }
+    .today-hero .hero-status { margin: 8px 0; }
+    .today-hero .hero-status .chip {
+      font-size: 1.05rem;
+      padding: 5px 14px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .today-hero .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed #fde047;
+      font-size: 0.85rem;
+    }
+    .today-hero .hero-grid div span { color: #64748b; font-size: 0.75rem; display: block; }
+    .today-hero .hero-grid div b { font-size: 0.95rem; color: #1e293b; }
+
+    /* Sticky Bottom Minimized Today Card */
+    .sticky-today-card {
+      position: fixed;
+      bottom: -100px;
+      left: 12px;
+      right: 12px;
+      max-width: 576px;
+      margin: 0 auto;
+      background: #fffdf5;
+      border: 1px solid #fef08a;
+      border-left: 5px solid #ff6600;
+      border-radius: 12px;
+      padding: 10px 14px;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 99;
+      transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sticky-today-card.show {
+      bottom: 20px;
+    }
+
+    .sticky-left {
       display: flex;
       flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+    }
+    .sticky-left .sticky-date {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sticky-left .sticky-sub {
+      font-size: 0.72rem;
+      color: var(--text-sub);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sticky-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .sticky-right .chip {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+    }
+
+    /* 飛返頂部按鈕 */
+    .btn-scroll-top {
+      background: #ffffff;
+      color: #10172a;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    }
+    .btn-scroll-top:active {
+      background: #ffedd5;
+      transform: scale(0.95);
+    }
+
+    /* Filters Section */
+    .filters-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .filters-title { font-size: 0.85rem; font-weight: 600; color: var(--text-sub); margin-bottom: 8px; }
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .filters-grid label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.75rem;
+      color: var(--text-sub);
       gap: 4px;
     }
-    .filters select {
-      font-size: 14px;
-      padding: 3px;
+    .filters-grid select {
+      font-size: 0.85rem;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid #dfe1e6;
+      background-color: #fafbfc;
+      color: var(--text-main);
     }
-    .last-update {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 1.5rem;
+
+    /* Mobile Roster Cards */
+    .roster-list { display: flex; flex-direction: column; gap: 10px; }
+    .roster-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-left: 5px solid #ccc;
     }
-    .table-container {
-      overflow-x: auto;
+    .roster-card.is-today {
+      background: #fffdf5;
+      border: 1px solid #ffe380;
+      border-left: 5px solid #ffab00;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: white;
-      min-width: 1000px;
+
+    .card-left { flex: 1; padding-right: 12px; }
+    .card-left .date-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+    .card-left .depot-shift { font-size: 0.8rem; color: var(--text-sub); margin-top: 3px; }
+    
+    .card-left .detail-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+    .card-left .tag {
+      font-size: 0.75rem;
+      background: #f1f5f9;
+      padding: 3px 8px;
+      border-radius: 6px;
+      color: #334155;
+      font-weight: 500;
     }
-    td, th {
-      border: 1px solid #ccc;
-      padding: 6px;
-      font-size: 14px;
-      text-align: center;
+    .card-left .tag-checkin { background: #e0f2fe; color: #0369a1; }
+    .card-left .remark-text { font-size: 0.75rem; color: #d97706; margin-top: 6px; font-weight: 500; }
+
+    .card-right { text-align: right; min-width: 70px; }
+    .chip {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
     }
+
+    /* Status Colors */
+    .chip-off { background: var(--danger-bg); color: var(--danger-color); }
+    .chip-work { background: var(--success-bg); color: var(--success-color); }
+    .chip-standby { background: var(--warning-bg); color: var(--warning-color); }
+    .chip-default { background: var(--info-bg); color: var(--info-color); }
+
+    .border-off { border-left-color: var(--danger-color); }
+    .border-work { border-left-color: var(--success-color); }
+    .border-standby { border-left-color: var(--warning-color); }
+    .border-default { border-left-color: var(--primary); }
+
+    /* Hide Original Raw Table */
+    .raw-table-wrapper { display: none; }
   </style>
 </head>
 <body>
-  <h1>龍運 - 羊仔更表</h1>
-  <div class="last-update">最後更新時間(香港)：2026/09/13 15:33</div>
 
-  <div class="filters">
-    <label>編更廠：
-      <select id="filter-depot"><option value="">全部</option></select>
-    </label>
-    <label>路線：
-      <select id="filter-route"><option value="">全部</option></select>
-    </label>
-    <label>字軌：
-      <select id="filter-code"><option value="">全部</option></select>
-    </label>
-    <label>更份：
-      <select id="filter-shift"><option value="">全部</option></select>
-    </label>
-    <label>簽到地點：
-      <select id="filter-checkin"><option value="">全部</option></select>
-    </label>
-    <label>出勤狀態（可多選）：
-      <select id="filter-location" multiple size="4"></select>
-    </label>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-content">
+      <img src="icon192.png" alt="Icon" class="header-icon">
+      <div class="header-text">
+        <h1>龍運羊仔更表</h1>
+        <div class="last-update">最後更新：2026/09/13 16:12 (HKT)</div>
+      </div>
+    </div>
   </div>
 
-  <div class="table-container">
-    <table bgcolor="#C6C6FF" border="1" cellpadding="2" width="1000"><thead><tr align="center" bgcolor="#AAAAFF">
+  <!-- iOS PWA 指引 Modal -->
+  <div id="ios-pwa-modal" class="pwa-modal">
+    <div class="pwa-modal-content">
+      <div class="pwa-modal-header">
+        <h3>加至手機主頁</h3>
+        <span class="pwa-close-btn" onclick="closePwaModal()">&times;</span>
+      </div>
+      <div class="pwa-modal-body">
+        <p><b>iOS Safari 用戶：</b></p>
+        <ol>
+          <li>點擊 Safari 底部的<b>分享按鈕</b>（<span style="font-size:1.1rem;">⎋</span> / <span style="font-size:1.1rem;">⍗</span>）</li>
+          <li>向下滾動並選擇 <b>「加至主畫面」 (Add to Home Screen)</b> ➕</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- 今日重點 Hero Card -->
+    <div id="today-hero-container"></div>
+
+    <!-- 快捷篩選區 -->
+    <div class="filters-card">
+      <div class="filters-title">🔍 篩選更份資料</div>
+      <div class="filters-grid">
+        <label>編更廠：
+          <select id="filter-depot"><option value="">全部</option></select>
+        </label>
+        <label>更份：
+          <select id="filter-shift"><option value="">全部</option></select>
+        </label>
+        <label>路線：
+          <select id="filter-route"><option value="">全部</option></select>
+        </label>
+        <label>字軌：
+          <select id="filter-code"><option value="">全部</option></select>
+        </label>
+        <label>簽到地點：
+          <select id="filter-checkin"><option value="">全部</option></select>
+        </label>
+        <label>出勤狀態：
+          <select id="filter-location"><option value="">全部</option></select>
+        </label>
+      </div>
+    </div>
+
+    <!-- 手機卡片列表 -->
+    <div id="roster-cards-list" class="roster-list"></div>
+
+    <!-- 保留原始資料表格 -->
+    <div class="raw-table-wrapper">
+      <table bgcolor="#C6C6FF" border="1" cellpadding="2" width="1000"><thead><tr align="center" bgcolor="#AAAAFF">
 <td width="180"><font size="2">更牌日期(年/月/日)</font></td>
 <td width="80"><font size="2">編更廠</font></td>
 <td width="50"><font size="2">路線</font></td>
@@ -314,104 +619,273 @@
 <td><font color="#FF0000" size="2">*</font></td>
 <td><font color="#FF0000" size="2"></font></td>
 </tr></tbody></table>
+    </div>
+
+  </div>
+
+  <!-- 縮小版 Sticky Card -->
+  <div id="sticky-today-card" class="sticky-today-card">
+    <div class="sticky-left">
+      <span class="hero-tag">TODAY 今日更份</span>
+      <div id="sticky-date" class="sticky-date">--</div>
+      <div id="sticky-sub" class="sticky-sub">--</div>
+    </div>
+    <div class="sticky-right">
+      <div id="sticky-chip-wrapper"></div>
+      <button class="btn-scroll-top" onclick="scrollToTop()" title="篩選更份資料">🔍</button>
+    </div>
   </div>
 
   <script>
     const columnIndexMap = {
+      date: 0,
       depot: 1,
       route: 2,
       code: 3,
       shift: 4,
+      standby: 5,
       checkin: 6,
-      location: 7
+      location: 7,
+      remark: 8
     };
 
-    function getUniqueColumnValues(index) {
-      const rows = Array.from(document.querySelectorAll("table tbody tr")).slice(1);
-      const values = new Set();
-      rows.forEach(row => {
-        const cell = row.cells[index];
-        if (cell && cell.textContent.trim()) {
-          values.add(cell.textContent.trim());
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function getStatusClass(statusText) {
+      if (!statusText) return { chip: 'chip-default', border: 'border-default' };
+      if (statusText.includes('休') || statusText.includes('假')) {
+        return { chip: 'chip-off', border: 'border-off' };
+      } else if (statusText.includes('後備') || statusText.includes('候命')) {
+        return { chip: 'chip-standby', border: 'border-standby' };
+      } else if (statusText.trim() !== '') {
+        return { chip: 'chip-work', border: 'border-work' };
+      }
+      return { chip: 'chip-default', border: 'border-default' };
+    }
+
+    function buildMobileViews() {
+      const rows = Array.from(document.querySelectorAll(".raw-table-wrapper table tbody tr"));
+      const cardsContainer = document.getElementById("roster-cards-list");
+      const heroContainer = document.getElementById("today-hero-container");
+
+      cardsContainer.innerHTML = "";
+      heroContainer.innerHTML = "";
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const todayStr = `${year}/${month}/${day}`;
+
+      let todayData = null;
+
+      rows.forEach((row) => {
+        const cells = row.cells;
+        if (!cells || cells.length < 8) return;
+
+        const dateText = cells[columnIndexMap.date]?.textContent.trim() || "";
+        const depotText = cells[columnIndexMap.depot]?.textContent.trim() || "";
+        const routeText = cells[columnIndexMap.route]?.textContent.trim() || "";
+        const codeText = cells[columnIndexMap.code]?.textContent.trim() || "";
+        const shiftText = cells[columnIndexMap.shift]?.textContent.trim() || "";
+        const standbyText = cells[columnIndexMap.standby]?.textContent.trim() || "";
+        const checkinText = cells[columnIndexMap.checkin]?.textContent.trim() || "";
+        const statusText = cells[columnIndexMap.location]?.textContent.trim() || "--";
+        const remarkText = cells[columnIndexMap.remark]?.textContent.trim() || "";
+
+        const isToday = dateText.startsWith(todayStr);
+        const statusStyle = getStatusClass(statusText);
+
+        if (isToday && !todayData) {
+          todayData = { 
+            dateText, 
+            depotText, 
+            routeText, 
+            codeText, 
+            shiftText, 
+            standbyText, 
+            checkinText, 
+            statusText, 
+            remarkText,
+            statusStyle 
+          };
         }
+
+        let detailsHtml = "";
+        if (routeText) detailsHtml += `<span class="tag">路線: ${routeText}</span>`;
+        if (codeText) detailsHtml += `<span class="tag">字軌: ${codeText}</span>`;
+        if (standbyText) detailsHtml += `<span class="tag">候命: ${standbyText}</span>`;
+        if (checkinText) detailsHtml += `<span class="tag tag-checkin">📍 簽到: ${checkinText}</span>`;
+
+        let remarkHtml = "";
+        if (remarkText) remarkHtml = `<div class="remark-text">💡 備註: ${remarkText}</div>`;
+
+        const card = document.createElement("div");
+        card.className = `roster-card ${statusStyle.border} ${isToday ? 'is-today' : ''}`;
+        card.dataset.depot = depotText;
+        card.dataset.route = routeText;
+        card.dataset.code = codeText;
+        card.dataset.shift = shiftText;
+        card.dataset.checkin = checkinText;
+        card.dataset.location = statusText;
+
+        card.innerHTML = `
+          <div class="card-left">
+            <div class="date-title">${dateText} ${isToday ? '📌' : ''}</div>
+            <div class="depot-shift">${depotText} · ${shiftText ? shiftText + '更' : '--'}</div>
+            ${detailsHtml ? `<div class="detail-tags">${detailsHtml}</div>` : ''}
+            ${remarkHtml}
+          </div>
+          <div class="card-right">
+            <span class="chip ${statusStyle.chip}">${statusText}</span>
+          </div>
+        `;
+
+        cardsContainer.appendChild(card);
       });
-      return Array.from(values).sort();
+
+      if (todayData) {
+        // 1. 渲染頂部大 Hero Card
+        heroContainer.innerHTML = `
+          <div class="today-hero">
+            <span class="hero-tag">TODAY 今日更份</span>
+            <div class="hero-date">${todayData.dateText} 📌</div>
+            <div class="hero-status">
+              <span class="chip ${todayData.statusStyle.chip}">${todayData.statusText}</span>
+            </div>
+            <div class="hero-grid">
+              <div><span>編更廠 / 更份</span><b>${todayData.depotText || '--'} (${todayData.shiftText || '--'}更)</b></div>
+              <div><span>簽到地點</span><b>${todayData.checkinText || '--'}</b></div>
+              <div><span>路線 / 字軌</span><b>${todayData.routeText || '--'} / ${todayData.codeText || '--'}</b></div>
+              <div><span>候命 / 備註</span><b>${todayData.standbyText || '--'} / ${todayData.remarkText || '--'}</b></div>
+            </div>
+          </div>
+        `;
+
+        // 2. 填充 縮小版 Sticky Card 數據
+        document.getElementById("sticky-date").innerHTML = `${todayData.dateText} 📌`;
+        document.getElementById("sticky-sub").innerText = `${todayData.depotText} · ${todayData.shiftText}更 ${todayData.routeText ? '| 路線 ' + todayData.routeText : ''}`;
+        document.getElementById("sticky-chip-wrapper").innerHTML = `<span class="chip ${todayData.statusStyle.chip}">${todayData.statusText}</span>`;
+
+        // 3. 綁定 Intersection Observer (監聽 Hero Card 是否離開螢幕)
+        setupObserver();
+      }
     }
 
-    function populateFilter(id, values) {
-      const select = document.getElementById(id);
-      if (id === "filter-location") {
-        const allOption = document.createElement("option");
-        allOption.value = "__ALL__";
-        allOption.textContent = "全部";
-        select.appendChild(allOption);
-      }
-      values.forEach(val => {
-        const option = document.createElement("option");
-        option.value = val;
-        option.textContent = val;
-        select.appendChild(option);
-      });
+    function setupObserver() {
+      const heroEl = document.getElementById("today-hero-container");
+      const stickyCard = document.getElementById("sticky-today-card");
+
+      if (!heroEl || !stickyCard) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            stickyCard.classList.add("show");
+          } else {
+            stickyCard.classList.remove("show");
+          }
+        });
+      }, { threshold: 0.1 });
+
+      observer.observe(heroEl);
     }
 
-    function getMultiSelectValues(selectElement) {
-      const selected = Array.from(selectElement.selectedOptions).map(opt => opt.value);
-      if (selected.includes("__ALL__")) {
-        // 揀咗「全部」就取返所有非 "全部" 嘅選項
-        return Array.from(selectElement.options)
-                    .map(opt => opt.value)
-                    .filter(v => v && v !== "__ALL__");
-      }
-      return selected;
+    function populateFilterOptions() {
+      const filterKeys = ['depot', 'shift', 'route', 'code', 'checkin', 'location'];
+      filterKeys.forEach(key => {
+        const select = document.getElementById("filter-" + key);
+        if (!select) return;
+
+        const colIdx = columnIndexMap[key];
+        const rows = Array.from(document.querySelectorAll(".raw-table-wrapper table tbody tr"));
+        const values = new Set();
+
+        rows.forEach(row => {
+          const cell = row.cells[colIdx];
+          if (cell && cell.textContent.trim()) {
+            values.add(cell.textContent.trim());
+          }
+        });
+
+        Array.from(values).sort().forEach(val => {
+          const opt = document.createElement("option");
+          opt.value = val;
+          opt.textContent = val;
+          select.appendChild(opt);
+        });
+
+        select.addEventListener("change", applyFilters);
+      });
     }
 
     function applyFilters() {
-      const filters = {
-        depot: document.getElementById("filter-depot").value,
-        route: document.getElementById("filter-route").value,
-        code: document.getElementById("filter-code").value,
-        shift: document.getElementById("filter-shift").value,
-        checkin: document.getElementById("filter-checkin").value,
-        location: getMultiSelectValues(document.getElementById("filter-location"))
-      };
-      const rows = document.querySelectorAll("table tbody tr");
-      rows.forEach(row => {
-        let visible = true;
-        for (const key in filters) {
-          const val = filters[key];
-          const cell = row.cells[columnIndexMap[key]];
-          const text = cell ? cell.textContent.trim() : "";
+      const depotVal = document.getElementById("filter-depot").value;
+      const shiftVal = document.getElementById("filter-shift").value;
+      const routeVal = document.getElementById("filter-route").value;
+      const codeVal = document.getElementById("filter-code").value;
+      const checkinVal = document.getElementById("filter-checkin").value;
+      const locationVal = document.getElementById("filter-location").value;
 
-          if (key === "location") {
-            if (val.length && !val.includes(text)) {
-              visible = false;
-              break;
-            }
-          } else {
-            if (val && text !== val) {
-              visible = false;
-              break;
-            }
-          }
+      const cards = document.querySelectorAll(".roster-card");
+      cards.forEach(card => {
+        const matchDepot = !depotVal || card.dataset.depot === depotVal;
+        const matchShift = !shiftVal || card.dataset.shift === shiftVal;
+        const matchRoute = !routeVal || card.dataset.route === routeVal;
+        const matchCode = !codeVal || card.dataset.code === codeVal;
+        const matchCheckin = !checkinVal || card.dataset.checkin === checkinVal;
+        const matchLocation = !locationVal || card.dataset.location === locationVal;
+
+        if (matchDepot && matchShift && matchRoute && matchCode && matchCheckin && matchLocation) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
         }
-        row.style.display = visible ? "" : "none";
       });
     }
 
+    // PWA 安裝邏輯
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const installBtn = document.getElementById('pwa-install-btn');
+      if (installBtn) installBtn.style.display = 'block';
+    });
+
+    function handlePwaInstall() {
+      const isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted PWA prompt');
+          }
+          deferredPrompt = null;
+        });
+      } else if (isIos) {
+        document.getElementById('ios-pwa-modal').style.display = 'flex';
+      } else {
+        alert("請使用瀏覽器選單中的「加至主頁」或「安裝應用程式」功能。");
+      }
+    }
+
+    function closePwaModal() {
+      document.getElementById('ios-pwa-modal').style.display = 'none';
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
-      const keys = ["depot", "route", "code", "shift", "checkin", "location"];
-      keys.forEach(key => {
-        const filterId = "filter-" + key;
-        const values = getUniqueColumnValues(columnIndexMap[key]);
-        populateFilter(filterId, values);
+      buildMobileViews();
+      populateFilterOptions();
 
-        // 預設選中「全部」
-        if (key === "location") {
-          document.getElementById(filterId).querySelector("option[value='__ALL__']").selected = true;
-        }
+      const btn = document.getElementById('pwa-install-btn');
+      if (btn) btn.addEventListener('click', handlePwaInstall);
 
-        document.getElementById(filterId).addEventListener("change", applyFilters);
-      });
+      if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
+        if (btn) btn.style.display = 'none';
+      }
     });
   </script>
 </body>
