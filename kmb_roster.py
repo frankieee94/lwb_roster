@@ -143,8 +143,8 @@ html_template = f"""<!DOCTYPE html>
       gap: 12px;
     }}
     .header-icon {{
-      width: 40px;
-      height: 40px;
+      width: 46px;
+      height: 46px;
       border-radius: 8px;
       object-fit: cover;
     }}
