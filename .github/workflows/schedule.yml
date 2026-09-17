@@ -1,6 +1,7 @@
 name: Daily Roster Update
 
 on:
+  workflow_dispatch: # 允許手動觸發
   schedule:
     - cron: '30 11 * * *' # HKT 19:30
     - cron: '30 14 * * *' # HKT 22:30
@@ -10,7 +11,6 @@ on:
     - cron: '30 2 * * *'  # HKT 10:30
     - cron: '30 5 * * *'  # HKT 13:30
     - cron: '30 8 * * *'  # HKT 16:30
-  workflow_dispatch: # 允許手動觸發
 
 permissions:
   contents: write # 允許 push 到 repo
@@ -21,6 +21,7 @@ jobs:
     env:
       LOGIN_ID: ${{ secrets.LOGIN_ID }}
       LOGIN_PW: ${{ secrets.LOGIN_PW }}
+      TZ: Asia/Hong_Kong
 
     steps:
       - name: Checkout repo
