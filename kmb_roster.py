@@ -24,7 +24,7 @@ driver = webdriver.Chrome(options=options)
 
 # ==== 直接開啟 dutyroster 頁面，會自動導向登入頁 ====
 driver.get("https://www.kmb.org.hk/kmbhr/drs/dutyroster.php")
-WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
+WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.NAME, "username")))
 driver.find_element(By.NAME, "username").send_keys(login_id)
 driver.find_element(By.NAME, "password").send_keys(login_pw)
 driver.find_element(By.XPATH, "//input[@type='submit' and @value='  確定  ']").click()
