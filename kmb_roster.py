@@ -16,15 +16,18 @@ if not login_id or not login_pw:
 
 # ==== 啟動瀏覽器 ====
 options = webdriver.ChromeOptions()
+options.add_argument("--headless=new")
 options.add_argument("--headless")
 options.add_argument("--disable-gpu")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--window-size=1920,1080")
+options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 driver = webdriver.Chrome(options=options)
 
 # ==== 直接開啟 dutyroster 頁面，會自動導向登入頁 ====
 driver.get("https://www.kmb.org.hk/kmbhr/drs/dutyroster.php")
-WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.NAME, "username")))
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))
 driver.find_element(By.NAME, "username").send_keys(login_id)
 driver.find_element(By.NAME, "password").send_keys(login_pw)
 driver.find_element(By.XPATH, "//input[@type='submit' and @value='  確定  ']").click()
