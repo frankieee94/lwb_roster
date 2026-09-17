@@ -1,6 +1,7 @@
 name: Daily Roster Update
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '30 11 * * *' # HKT 19:30
     - cron: '30 14 * * *' # HKT 22:30
