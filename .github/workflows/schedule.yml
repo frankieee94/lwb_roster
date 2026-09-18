@@ -3,14 +3,14 @@ name: Daily Roster Update
 on:
   workflow_dispatch: # 允許手動觸發
   schedule:
-    - cron: '30 11 * * *' # HKT 19:30
-    - cron: '30 14 * * *' # HKT 22:30
-    - cron: '30 17 * * *' # HKT 01:30
-    - cron: '30 20 * * *' # HKT 04:30
-    - cron: '30 23 * * *' # HKT 07:30
-    - cron: '30 2 * * *'  # HKT 10:30
-    - cron: '30 5 * * *'  # HKT 13:30
-    - cron: '30 8 * * *'  # HKT 16:30
+    - cron: '17 11 * * *'
+    - cron: '17 14 * * *'
+    - cron: '17 17 * * *'
+    - cron: '17 20 * * *'
+    - cron: '17 23 * * *'
+    - cron: '17 2 * * *'
+    - cron: '17 5 * * *'
+    - cron: '17 8 * * *'
 
 permissions:
   contents: write # 允許 push 到 repo
