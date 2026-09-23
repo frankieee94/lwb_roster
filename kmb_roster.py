@@ -152,7 +152,7 @@ html_template = f"""<!DOCTYPE html>
       object-fit: cover;
     }}
     .header-text h1 {{ font-size: 1.15rem; font-weight: 700; color: #f26c34; }}
-    .header-text .last-update {{ font-size: 0.95rem; color: var(--text-sub); margin-top: 2px; }}
+    .header-text .last-update {{ font-size: 1.15rem; color: var(--text-sub); margin-top: 2px; }}
 
     /* PWA 安裝按鈕 */
     .pwa-btn {{
@@ -247,7 +247,7 @@ html_template = f"""<!DOCTYPE html>
       border-top: 1px dashed #fde047;
       font-size: 0.85rem;
     }}
-    .today-hero .hero-grid div span {{ color: #64748b; font-size: 0.95rem; display: block; }}
+    .today-hero .hero-grid div span {{ color: #64748b; font-size: 1.15rem; display: block; }}
     .today-hero .hero-grid div b {{ font-size: 1.1rem; color: #1e293b; }}
 
     /* Sticky Bottom Minimized Today Card */
@@ -289,7 +289,7 @@ html_template = f"""<!DOCTYPE html>
       gap: 6px;
     }}
     .sticky-left .sticky-sub {{
-      font-size: 0.95rem;
+      font-size: 1.15rem;
       color: var(--text-sub);
       white-space: nowrap;
       overflow: hidden;
@@ -303,7 +303,7 @@ html_template = f"""<!DOCTYPE html>
       flex-shrink: 0;
     }}
     .sticky-right .chip {{
-      font-size: 0.95rem;
+      font-size: 1.15rem;
       padding: 3px 8px;
     }}
 
@@ -335,7 +335,7 @@ html_template = f"""<!DOCTYPE html>
       margin-bottom: 16px;
       box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }}
-    .filters-title {{ font-size: 0.95rem; font-weight: 600; color: var(--text-sub); margin-bottom: 8px; }}
+    .filters-title {{ font-size: 1.15rem; font-weight: 600; color: var(--text-sub); margin-bottom: 8px; }}
     .filters-grid {{
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -344,7 +344,7 @@ html_template = f"""<!DOCTYPE html>
     .filters-grid label {{
       display: flex;
       flex-direction: column;
-      font-size: 0.95rem;
+      font-size: 1.15rem;
       color: var(--text-sub);
       gap: 4px;
     }}
@@ -377,11 +377,11 @@ html_template = f"""<!DOCTYPE html>
 
     .card-left {{ flex: 1; padding-right: 12px; }}
     .card-left .date-title {{ font-size: 1.1rem; font-weight: 700; color: var(--text-main); }}
-    .card-left .depot-shift {{ font-size: 0.95rem; color: var(--text-sub); margin-top: 3px; }}
+    .card-left .depot-shift {{ font-size: 1.15rem; color: var(--text-sub); margin-top: 3px; }}
     
     .card-left .detail-tags {{ display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }}
     .card-left .tag {{
-      font-size: 0.95rem;
+      font-size: 1.15rem;
       background: #f1f5f9;
       padding: 3px 8px;
       border-radius: 6px;
@@ -396,7 +396,7 @@ html_template = f"""<!DOCTYPE html>
       display: inline-block;
       padding: 4px 10px;
       border-radius: 20px;
-      font-size: 0.95rem;
+      font-size: 1.15rem;
       font-weight: 700;
     }}
 
